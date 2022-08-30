@@ -27,9 +27,9 @@
 						회원 관리
 					</a>
 					<div class = "dropdown-menu" aria-labelledby="dropdown">
-						<a class = "dropdown-item" href="#">로그인</a>
-						<a class = "dropdown-item" href="#">회원가입</a>
-						<a class = "dropdown-item" href="#">로그아웃</a>
+						<a class = "dropdown-item" href="userLogin.jsp">로그인</a>
+						<a class = "dropdown-item" href="userJoin.jsp">회원가입</a>
+						<a class = "dropdown-item" href="userLogout.jsp">로그아웃</a>
 					</div>
 				</li>
 			</ul>
@@ -80,6 +80,16 @@
 				</div>
 			</div>
 		</div>
+		<div class = "card bg-light mt-3">
+			<div class = "card-header bg-light">
+				<div class ="row">
+					<div class = "col-8 text-left">금형디자인&nbsp;<small>최준혁</small></div>
+					<div class = "col-4 text-right">
+						종합<span style = "color: red;">A</span>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class = "card-body">
 			<h5 class = "card-title">
 				집중이 잘되는 강의에요.&nbsp;<small>(2017년 기출학기)</small>
@@ -95,6 +105,16 @@
 				<div class = "col-3 text-right">
 					<a onclick = "return confirm('추천하시겠습니까?')" href="./likeAction.jsp?evaluationID=">추천</a>
 					<a onclick = "return confirm('삭제하시겠습니까?')" href="./deleteAction.jsp?evaluationID=">삭제</a>
+				</div>
+			</div>
+		</div>
+		<div class = "card bg-light mt-3">
+			<div class = "card-header bg-light">
+				<div class ="row">
+					<div class = "col-8 text-left">나이스&nbsp;<small>안창은</small></div>
+					<div class = "col-4 text-right">
+						종합<span style = "color: red;">A</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -263,7 +283,7 @@
 			</div>
 		</div>
 	</div>
-	<footer class = "bg-dark mt-4 p-5 text-center" style = "color: #FFFFFFF;">
+	<footer class = "bg-dark mt-4 p-5 text-center" style = "color: white;">
 		Copyright &copy; 2018 안창은All Right Reserved.
 	</footer>
 	<!-- 제이쿼리 자바스크립트 추가하기 -->

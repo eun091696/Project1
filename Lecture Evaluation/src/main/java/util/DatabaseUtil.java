@@ -7,7 +7,7 @@ public class DatabaseUtil {
 
 	public static Connection getConnection() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/TUTORIAL";
+			String dbURL = "jdbc:mysql://localhost:3306/LectureEvaluation";
 			String dbID = "root";
 			String dbPassword = "root";
 			Class.forName("com.mysql.jdbc.Driver");

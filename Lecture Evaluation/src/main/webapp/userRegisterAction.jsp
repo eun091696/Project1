@@ -9,15 +9,17 @@
 	String userID = null;
 	String userPassword = null;
 	String userEmail = null;
+	
 	if(request.getParameter("userID") != null) {
-		userID = request.getParameter("userID");
+		userID = (String) request.getParameter("userID");
 	}
 	if(request.getParameter("userPassword") != null) {
-		userPassword = request.getParameter("userPassword");
+		userPassword = (String) request.getParameter("userPassword");
 	}
 	if(request.getParameter("userEmail") != null) {
-		userEmail = request.getParameter("userEmail");
+		userEmail = (String) request.getParameter("userEmail");
 	}
+	
 	if(userID == null || userPassword == null || userEmail == null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
@@ -26,24 +28,24 @@
 		script.println("</script>");
 		script.close();
 		return;
-	}
-	UserDAO userDAO = new UserDAO();
-	int result = userDAO.join(new UserDTO(userID, userPassword, userEmail, SHA256.getSHA256(userEmail), false));
-	if(result == 1) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('이미 존재하는 아이디입니다.');");
-		script.println("history.back();");
-		script.println("</script>");
-		script.close();
-		return;
+	} else{
+		UserDAO userDAO = new UserDAO();
+		int result = userDAO.join(new UserDTO(userID, userPassword, userEmail, SHA256.getSHA256(userEmail), false));
+		if(result == -1) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('이미 존재하는 아이디입니다.');");
+			script.println("history.back();");
+			script.println("</script>");
+			script.close();
+			return;
 	} else {
 		session.setAttribute("userID", userID);
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
-		script.println("location.href = 'emailSendAction.jsp'");
+		script.println("location.href = 'emailSendAction.jsp';");
 		script.println("</script>");
 		script.close();
-		return;
+		}
 	}
 	%>

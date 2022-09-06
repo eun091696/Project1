@@ -7,10 +7,10 @@ public class DatabaseUtil {
 
 	public static Connection getConnection() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/LectureEvaluation";
-			String dbID = "root";
-			String dbPassword = "root";
-			Class.forName("com.mysql.jdbc.Driver");
+			String dbURL = "jdbc:mariadb://localhost:3307/LectureEvaluation";
+			String dbID = "ace";
+			String dbPassword = "1234";
+			Class.forName("org.mariadb.jdbc.Driver");
 			return DriverManager.getConnection(dbURL, dbID, dbPassword);
 		} catch(Exception e) {
 			e.printStackTrace();

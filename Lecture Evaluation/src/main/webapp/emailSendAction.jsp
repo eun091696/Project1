@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <%@ page import="javax.mail.Transport" %>
 <%@ page import="javax.mail.Message" %>
 <%@ page import="javax.mail.Address" %>
@@ -8,10 +6,12 @@
 <%@ page import="javax.mail.Session" %>
 <%@ page import="javax.mail.Authenticator" %>
 <%@ page import="java.util.Properties" %>
+<%@ page import="java.io.PrintWriter"%>
 <%@ page import="user.UserDAO"%>
 <%@ page import="util.SHA256"%>
 <%@ page import="util.Gmail" %>
-<%@ page import="java.io.PrintWriter"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%
 	UserDAO userDAO = new UserDAO();
 	String userID = null;
@@ -38,24 +38,21 @@
 		script.close();
 		return;
 	}
-	
-	String host = "http://localhost:8085/Lecture_Evaluation/";
+	//사용자에게 보낼 메세지를 기입합니다.
+	String host = "http://localhost:8080/Lecture_Evaluation/";
 	String from = "eun091696@gmail.com";
 	String to = userDAO.getUserEmail(userID);
 	String subject = "강의평가를 위한 이메일 인증 메일입니다.";
 	String content = "다음 링크에 접속하여 이메일 인증을 진행하세요." +
 		"<a href='" + host + "emailCheckAction.jsp?code=" + new SHA256().getSHA256(to) + "'>이메일 인증하기</a>";
 	
+	//SMTP에 접속하기 위한 정보를 기입합니다.
 	Properties p = new Properties();
-	p.put("mail.smtp.user", from);
-	p.put("mail.smtp.host", "smtp.googlemail.com");
-	p.put("mail.smtp.user", "456");
-	p.put("mail.smtp.starttls.enable", "true");
-	p.put("mail.smtp.auto", "true");
-	p.put("mail.smtp.debug", "true");
-	p.put("mail.smtp.soketFactory.port", "465");
-	p.put("mail.smtp.soketFactory.class", "javax.net.ssl.SSLSocketFactory");
-	p.put("mail.smtp.soketFactory.fallback", "false");
+	p.put("mail.smtp.host", "smtp.gmail.com");
+	p.put("mail.smtp.port", "465");
+	p.put("mail.smtp.auth", "true");
+	p.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+	p.put("mail.smtp.ssl.protocols", "TLSv1.2");
 		
 	try{
 		Authenticator auth = new Gmail();
@@ -67,7 +64,7 @@
 		msg.setFrom(fromAddr);
 		Address toAddr = new InternetAddress(to);
 		msg.addRecipient(Message.RecipientType.TO, toAddr);
-		msg.setContent(content, "text/html;charset=UTF8");
+		msg.setContent(content, "text/html;charset=UTF-8");
 		Transport.send(msg);
 	} catch(Exception e){
 		e.printStackTrace();
@@ -101,19 +98,30 @@
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class = "navbar-nav mr-auto">
 				<li class = "nav-item active">
-					<a class = "nav-link" href = "index.jsp">메인</a>
+					<a class = "nav-link" href="index.jsp">메인</a>
 				</li>
 				<li class = "nav-item dropdown">
 					<a class = "nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
 						회원 관리
 					</a>
 					<div class = "dropdown-menu" aria-labelledby="dropdown">
+<%
+	if(userID == null) {
+%>					
 						<a class = "dropdown-item" href="userLogin.jsp">로그인</a>
+						<a class = "dropdown-item" href="userJoin.jsp">회원가입</a>
+<%
+	} else {
+%>
+						<a class = "dropdown-item" href="userLogout.jsp">로그아웃</a>
+<%
+	}
+%>			
 					</div>
 				</li>
 			</ul>
 			<form action="./index.jsp" method="get" class="form-inline my-2 my-lg-0">
-				<input type="text" name="search" class="form-control mr-sm-2" placeholder="내용을 입력하세요.">
+				<input type="text" name="search" class="form-control mr-sm-2"placeholder="내용을 입력하세요.">
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
 			</form>
 		</div>

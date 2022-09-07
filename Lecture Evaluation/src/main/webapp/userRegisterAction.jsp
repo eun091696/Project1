@@ -7,6 +7,17 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String userID = null;
+	if(session.getAttribute("userID") != null) {
+		userID = (String) session.getAttribute("userID");
+	}
+	if(userID != null) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인이 된 상태입니다.');");
+		script.println("location.href='index.jsp");
+		script.println("</script>");
+		script.close();
+	}
 	String userPassword = null;
 	String userEmail = null;
 	
@@ -31,7 +42,7 @@
 	} else{
 		UserDAO userDAO = new UserDAO();
 		int result = userDAO.join(new UserDTO(userID, userPassword, userEmail, SHA256.getSHA256(userEmail), false));
-		if(result == -1) {
+		if(result == 1) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('이미 존재하는 아이디입니다.');");
